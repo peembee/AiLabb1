@@ -10,6 +10,7 @@ namespace AILabb1
 {
     public class CustomerService
     {
+        bool botToSpeech = false;
         string CustomerName = string.Empty;
         Bot bot;
         public CustomerService(IConfiguration configuration)
@@ -49,7 +50,7 @@ namespace AILabb1
                 Console.Write($" {CustomerName}");
                 Console.ResetColor();
                 Console.WriteLine("\n------------------------\n");
-                Console.WriteLine("#1: lägg till AI-tjänst");
+                Console.WriteLine("#1: Voice-Settings");
                 Console.WriteLine("#2: Customer Service chat");
                 Console.WriteLine("#0: Close Customer Service");
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -67,9 +68,39 @@ namespace AILabb1
                 }
                 else if (userInput == "1")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Användar val 1");
-                    Console.ReadKey();
+                    while (true)
+                    {
+                        string inputFromUser = string.Empty;
+                        Console.Clear();
+                        Console.WriteLine("Would you like that Customer Service speak what they wrote to you?");
+                        Console.WriteLine("#1 = Yes");
+                        Console.WriteLine("#2 = No");
+                        Console.Write("Your Choice: ");
+                        inputFromUser = Console.ReadLine();
+                        inputFromUser = inputFromUser.Trim();
+                        if(inputFromUser.Length == 0)
+                        {
+                            Console.WriteLine("You need to type something..");
+                            System.Threading.Thread.Sleep(1000);
+                        }
+                        else if(inputFromUser == "1" || inputFromUser.ToLower() == "yes")
+                        {
+                            botToSpeech = true;
+                            break;
+                        }
+                        else if(inputFromUser == "2" || inputFromUser.ToLower() == "no")
+                        {
+                            botToSpeech = false;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Make sure you're enter a valid option..");
+                            System.Threading.Thread.Sleep(1000);
+                        }
+                    }
+                    Console.WriteLine("Redirecting to Home..");
+                    System.Threading.Thread.Sleep(1500);
                 }
                 else if (userInput == "2")
                 {
@@ -105,7 +136,7 @@ namespace AILabb1
             }
             connected();
 
-            bot.prepareQuestion(CustomerName);
+            bot.prepareQuestion(CustomerName, botToSpeech);
             // ---- Local methods for loading..----
             void adDots()
             {

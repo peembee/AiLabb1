@@ -31,14 +31,14 @@ namespace AILabb1
             CognitiveLocationSpeech = this.configuration["CognitiveLocationSpeech"];
         }
 
-        public void prepareQuestion(string customerName)
+        public void prepareQuestion(string customerName, bool botToSpeech)
         {
             string question = string.Empty;
             // enter chat with azure
             Console.WriteLine("--------");
             Console.WriteLine("Exit chat: enter 'quit' or '0'");
             Console.WriteLine("--------\n\n");
-            sendQuestion("whats your name");
+            sendQuestion("whats your name", botToSpeech);
 
             while (true)
             {
@@ -75,12 +75,12 @@ namespace AILabb1
                 }
                 else
                 {
-                    sendQuestion(question);
+                    sendQuestion(question, botToSpeech);
                 }
             }
         }
 
-        private async void sendQuestion(string question)
+        private async Task sendQuestion(string question, bool botToSpeech)
         {
             Uri endpoint = new Uri($"{CognitiveEndpoint}");
             AzureKeyCredential credential = new AzureKeyCredential($"{cognitiveServiceKey}");
@@ -104,7 +104,10 @@ namespace AILabb1
                 answerFromBot = answer.Answer;
             }
 
-            await botSpeech(answerFromBot);
+            if (botToSpeech == true)
+            {
+                await botSpeech(answerFromBot);
+            }
         }
 
         private async Task botSpeech(string answer)
@@ -113,7 +116,7 @@ namespace AILabb1
             var speechConfig = SpeechConfig.FromSubscription(CognitiveServiceKeySpeech, CognitiveLocationSpeech);
 
             // The language of the voice that speaks.
-            speechConfig.SpeechSynthesisVoiceName = "en-GB-RyanNeural";
+            speechConfig.SpeechSynthesisVoiceName = "en-US-JennyNeural";
 
             // Synthesize spoken output
             using (var speechSynthesizer = new SpeechSynthesizer(speechConfig))
