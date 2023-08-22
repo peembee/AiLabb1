@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using Azure;
+using Azure.AI.TextAnalytics;
+using Azure.Core;
+
 
 namespace AiLabb1v1._0
 {
     public static class AnalyzeCustomer
     {
+
+
+
+
+
+
+
+
+
+
         public static string customerChat = string.Empty;
         private static string choosenCust = string.Empty;
 
@@ -99,6 +114,25 @@ namespace AiLabb1v1._0
             Console.WriteLine($"Customer: {customerName}\nChat:\n--------\n{customerValue}");
             Console.ResetColor();
             Console.WriteLine("----------------");
+
+
+
+            // Get sentiment
+
+            Uri endpoint = new("https://customertextanalyze.cognitiveservices.azure.com/");
+            AzureKeyCredential credential = new("aa75dab7294040c48b2937ec0b7eba2f");
+            TextAnalyticsClient client = new(endpoint, credential);
+
+            Response<DocumentSentiment> response = client.AnalyzeSentiment(customerValue);
+            DocumentSentiment docSentiment = response.Value;
+
+            Console.WriteLine($"Document sentiment is {docSentiment.Sentiment} with: ");
+            Console.WriteLine($"  Positive confidence score: {docSentiment.ConfidenceScores.Positive}");
+            Console.WriteLine($"  Neutral confidence score: {docSentiment.ConfidenceScores.Neutral}");
+            Console.WriteLine($"  Negative confidence score: {docSentiment.ConfidenceScores.Negative}");
+
+
+
             Console.ReadKey();
         }
     }
