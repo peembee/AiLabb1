@@ -10,6 +10,7 @@ namespace AILabb1
     {
         static void Main(string[] args)
         {
+            // Get data from appsettings, key's etc
             IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
@@ -17,7 +18,6 @@ namespace AILabb1
 
             CustomerService customerService = new CustomerService(configuration);
 
-            customerService.RunCustomerService();
 
             Console.WriteLine("\n\n- - - - - - - - - - -");
             Console.WriteLine("Key for Close customer-service ");

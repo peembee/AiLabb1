@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
+using AiLabb1v1._0;
 
 namespace AILabb1
 {
@@ -21,6 +22,8 @@ namespace AILabb1
         string CognitiveServiceKeySpeech = string.Empty;
         string CognitiveLocationSpeech = string.Empty;
 
+
+        // collecting the data from appsettings to variables..
         public Bot(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -31,13 +34,18 @@ namespace AILabb1
             CognitiveLocationSpeech = this.configuration["CognitiveLocationSpeech"];
         }
 
+
         public void prepareQuestion(string customerName, bool botToSpeech)
         {
             string question = string.Empty;
+
+            //variable for saving chat from customer
+            string conversationChat = string.Empty;
+
             // enter chat with azure
             Console.WriteLine("--------");
             Console.WriteLine("Exit chat: enter 'quit' or '0'");
-            Console.WriteLine("--------\n\n");
+            Console.WriteLine("--------\n-\n");
             sendQuestion("whats your name", botToSpeech);
 
             while (true)
@@ -51,6 +59,10 @@ namespace AILabb1
                 if (question.ToLower() == "quit" || question == "0")
                 {
                     Console.Clear();
+
+                    // adding customerQuestions to dictionary in class: AnalyzeCustomer
+                    AnalyzeCustomer.addToDictionary(customerName, conversationChat);
+
                     Console.WriteLine("\n- - - - - - - - - - -");
                     Console.WriteLine("Thank you for chatting, redirecting to start-page");
                     System.Threading.Thread.Sleep(1000);
@@ -75,10 +87,15 @@ namespace AILabb1
                 }
                 else
                 {
+                    // adding question to conversationChat
+                    conversationChat += "-" + question + " \n\n";
+
+                    //Send question
                     sendQuestion(question, botToSpeech);
                 }
             }
         }
+
 
         private async Task sendQuestion(string question, bool botToSpeech)
         {
@@ -104,11 +121,12 @@ namespace AILabb1
                 answerFromBot = answer.Answer;
             }
 
-            if (botToSpeech == true)
+            if (botToSpeech == true) // if settings: bot-Spekaer == true, send it to bot-speaker
             {
                 await botSpeech(answerFromBot);
             }
         }
+
 
         private async Task botSpeech(string answer)
         {
@@ -121,7 +139,7 @@ namespace AILabb1
             // Synthesize spoken output
             using (var speechSynthesizer = new SpeechSynthesizer(speechConfig))
             {
-                // Get text from the console and synthesize to the default speaker.
+                // Get text from the botAsnwerText and synthesize to the default speaker.
                 var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(answer);
             }
         }
