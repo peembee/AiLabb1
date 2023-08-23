@@ -124,14 +124,11 @@ namespace AiLabb1v1._0
             Console.ResetColor();
             Console.WriteLine("----------------");
 
-
             ///////////////////////////////////////////////////////////////
             // Get sentiment
 
-            /// next step - add textanalyze-key/endpoint to appsettings <- Move it to every chat-part (addToDictionary) ->
-
-            Uri endpoint = new(cognitiveEndpointAnalyze); // <-------
-            AzureKeyCredential key = new(cognitiveServiceKeyAnalyze); // <-------
+            Uri endpoint = new(cognitiveEndpointAnalyze); 
+            AzureKeyCredential key = new(cognitiveServiceKeyAnalyze); 
             TextAnalyticsClient client = new(endpoint, key);
 
             Response<DocumentSentiment> response = client.AnalyzeSentiment(customerValue);
@@ -141,8 +138,6 @@ namespace AiLabb1v1._0
             Console.WriteLine($"  Positive confidence score: {docSentiment.ConfidenceScores.Positive}");
             Console.WriteLine($"  Neutral confidence score: {docSentiment.ConfidenceScores.Neutral}");
             Console.WriteLine($"  Negative confidence score: {docSentiment.ConfidenceScores.Negative}");
-
-
 
             Console.ReadKey();
         }

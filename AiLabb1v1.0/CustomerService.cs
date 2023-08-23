@@ -16,18 +16,12 @@ namespace AILabb1
 
         Bot bot;
 
-
         //Send appsettings-data to bot-Class
         public CustomerService(IConfiguration configuration)
         {
             bot = new Bot(configuration);
             enterCustomer();
         }
-
-
-
-
-
 
 
         private void enterCustomer()
