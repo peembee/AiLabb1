@@ -116,11 +116,13 @@ namespace AiLabb1v1._0
             Console.WriteLine("----------------");
 
 
-
+            ///////////////////////////////////////////////////////////////
             // Get sentiment
 
-            Uri endpoint = new("https://customertextanalyze.cognitiveservices.azure.com/");
-            AzureKeyCredential credential = new("aa75dab7294040c48b2937ec0b7eba2f");
+            /// next step - add textanalyze-key/endpoint to appsettings <- Move it to every chat-part (addToDictionary) ->
+
+            Uri endpoint = new("endpoint"); // <-------
+            AzureKeyCredential credential = new("key"); // <-------
             TextAnalyticsClient client = new(endpoint, credential);
 
             Response<DocumentSentiment> response = client.AnalyzeSentiment(customerValue);
