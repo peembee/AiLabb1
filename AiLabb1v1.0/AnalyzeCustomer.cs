@@ -13,20 +13,29 @@ namespace AiLabb1v1._0
 {
     public static class AnalyzeCustomer
     {
-
-
-
-
-
-
-
-
-
-
         public static string customerChat = string.Empty;
         private static string choosenCust = string.Empty;
 
+        private static string cognitiveServiceKeyAnalyze = string.Empty;
+        private static string cognitiveEndpointAnalyze = string.Empty;
+
         private static Dictionary<string, string> customerList = new Dictionary<string, string>();
+
+        public static string CognitiveServiceKeyAnalyze
+        {
+            set 
+            { 
+                cognitiveServiceKeyAnalyze = value;
+            }
+        }
+        public static string CognitiveEndpointAnalyze
+        {
+            set
+            {
+                cognitiveEndpointAnalyze = value;
+            }
+        }
+
 
         public static void addToDictionary(string key, string value)
         {
@@ -121,9 +130,9 @@ namespace AiLabb1v1._0
 
             /// next step - add textanalyze-key/endpoint to appsettings <- Move it to every chat-part (addToDictionary) ->
 
-            Uri endpoint = new("endpoint"); // <-------
-            AzureKeyCredential credential = new("key"); // <-------
-            TextAnalyticsClient client = new(endpoint, credential);
+            Uri endpoint = new(cognitiveEndpointAnalyze); // <-------
+            AzureKeyCredential key = new(cognitiveServiceKeyAnalyze); // <-------
+            TextAnalyticsClient client = new(endpoint, key);
 
             Response<DocumentSentiment> response = client.AnalyzeSentiment(customerValue);
             DocumentSentiment docSentiment = response.Value;

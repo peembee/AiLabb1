@@ -30,8 +30,10 @@ namespace AILabb1
             cognitiveServiceKey = this.configuration["CognitiveServiceKeyQA"];
             CognitiveEndpoint = this.configuration["CognitiveEndpointQA"];
             projectName = this.configuration["projectNameQA"];
-            CognitiveServiceKeySpeech = this.configuration["CognitiveServiceKeySpeech"];
-            CognitiveLocationSpeech = this.configuration["CognitiveLocationSpeech"];
+            CognitiveServiceKeySpeech = this.configuration["CognitiveServiceKey"];
+            CognitiveLocationSpeech = this.configuration["CognitiveLocation"];
+            AnalyzeCustomer.CognitiveServiceKeyAnalyze = this.configuration["CognitiveServiceKey"];
+            AnalyzeCustomer.CognitiveEndpointAnalyze = this.configuration["CognitiveEndpoint"];
         }
 
 
